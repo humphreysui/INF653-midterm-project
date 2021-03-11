@@ -58,16 +58,25 @@
       break;
 
     case "list_vehicles_by_price":
+      $makes = get_makes();
+      $types = get_types();
+      $classes = get_classes();
       $vehicles = sort_vehicles_by_price();
       include('./view/vehicle_list.php');
       break;
 
     case "list_vehicles_by_year":
+      $makes = get_makes();
+      $types = get_types();
+      $classes = get_classes();
       $vehicles = sort_vehicles_by_year();
       include('./view/vehicle_list.php');
       break;
 
     default:
+      $makes = get_makes();
+      $types = get_types();
+      $classes = get_classes();
       $vehicles = get_vehicles();
       include('./view/vehicle_list.php');
   
