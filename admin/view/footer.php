@@ -1,11 +1,20 @@
-<section>
-  <p><a href="?action=show_vehicle_form">Click here</a> to add a vehicle.</p> 
-</section>
+</main>
 
-<footer>
-  <p class="copyright"> 
+<footer class="page-footer footer-copyright container white section">
+  <div class="center-align black-text">
     &copy; 2021 Zippy Used Auto by Humphrey Sui, Qiupeng (admin).
-  </p>
-</footer> 
+  </div> 
+
+</footer>
+
+<script>
+  $(document).ready(function () {
+    $('select').formSelect();
+    $('.tabs').tabs();
+    /* $(".dropdown-trigger").dropdown(); */
+  });
+
+</script>
+
 </body> 
 </html>

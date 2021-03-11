@@ -1,8 +1,8 @@
 <?php include 'header.php'; ?> 
 
 <!-- make type and class dropdown menu -->
-<section>
-  <form action="." method="get">
+<section class="dropdown row">
+  <form action="." method="get" class="dropdown_form col l10 offset-l1 m6 offset-m3 s12">
  
     <input type="hidden" name="action" value="list_vehicles">
     <!-- onChange="this.form.submit()" --> 
@@ -21,7 +21,7 @@
           </option>
       <?php endforeach; ?> 
   
-    </select><br>
+    </select>
 
     <!-- types dropdown -->
     <select name="typeID" required onChange="this.form.submit()" >
@@ -37,9 +37,8 @@
           </option>
       <?php endforeach; ?>  
 
-    </select><br>
+    </select>
   
-
     <!-- classes dropdown -->   
     <select name="classID" required onChange="this.form.submit()" >
 
@@ -54,13 +53,13 @@
           </option>
       <?php endforeach; ?>  
 
-    </select><br>
-    <!-- <button>submit</button> -->
+    </select>
+     
   </form>
 </section>
 
 <!-- sort option radio buttons-->
-<section>
+<section class="sort_by row section">
   <?php 
      
     $year_check = 'unchecked';
@@ -74,26 +73,35 @@
        
     }
   ?>
-  <form action="." method="get">
-    <label>Sort By:</label> 
-    <input type="radio" name="action" value="list_vehicles_by_price" <?php echo $price_check;?>>Price
-    <input type="radio" name="action" value="list_vehicles_by_year" <?php echo $year_check;?>>Year
-    <button>Submit</button>   
+  <form action="." method="get" class="col l8 offset-l2 m8 offset-m2 s12">
+    <label class="label_text">Sort By:</label> 
+    <label>
+      <input class="with-gap" type="radio" name="action" value="list_vehicles_by_price" <?php echo $price_check;?>>
+      <span>Price</span> 
+    </label>
+    <label>
+      <input class="with-gap" type="radio" name="action" name="group3" value="list_vehicles_by_year" <?php echo $year_check;?>>
+      <span>Year</span> 
+    </label>
+    <button class="right submit_btn btn-small waves-effect waves-light indigo darken-1">Submit</button>   
   </form>  
 </section>
 
 <!-- the admin vehicle table -->
-<section>
-  <table> 
-    <tr>
-      <th>Year</th> 
-      <th>Make</th>
-      <th>Model</th>
-      <th>Type</th>
-      <th>Class</th>
-      <th>Price</th>
-      <th>&nbsp;</th>
-    </tr>
+<section class="row section">
+  <table class="col l10 offset-l1 m8 offset-m2 s12 responsive-table centered highlight">
+    <thead>
+      <tr>
+        <th>Year</th> 
+        <th>Make</th>
+        <th>Model</th>
+        <th>Type</th>
+        <th>Class</th>
+        <th>Price</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+
     <?php if($vehicles){ ?>
 
       <?php foreach($vehicles as $vehicle) : ?> 
@@ -110,7 +118,7 @@
           <form action=".?controllers/vehicle_controller.php" method="post"> 
             <input type="hidden" name="action" value="delete_vehicle">
             <input type="hidden" name="vehicleID" value="<?php echo $vehicle['vehicleID']; ?>"> 
-            <button>Remove</button>
+            <button class="btn-small waves-effect waves-light deep-orange darken-2">Remove</button>
           </form>
         </td>   
       </tr> 
@@ -134,13 +142,18 @@
 </section> 
 
  
-<section>
-  <p><a href="index.php">View Full Vehicle List</a></p>
-  <p><a href="?action=show_make_form">View/Edit Vehicle Makes</a></p>
-  <p><a href="?action=show_type_form">View/Edit Vehicle Types</a></p>
-  <p><a href="?action=show_class_form">View/Edit Vehicle Classes</a></p>
-  <!-- Click here to add a vehicle in footer -->
+<section class="row page-link">
+  <div class="col l6 offset-l1 m8 offset-m3 s12">
+    
+    <p><a class="black-text" href="index.php">View Full Vehicle List</a></p>
+    <p><a class="black-text" href="?action=show_make_form">View/Edit Vehicle Makes</a></p>
+    <p><a class="black-text" href="?action=show_vehicle_form">Click here</a> to add a vehicle.</p> 
+    <p><a class="black-text" href="?action=show_type_form">View/Edit Vehicle Types</a></p>
+    <p><a class="black-text" href="?action=show_class_form">View/Edit Vehicle Classes</a></p> 
+
+  </div>
 </section>
+<div class="divider"></div>
 
 
 <?php include 'footer.php'; ?> 
