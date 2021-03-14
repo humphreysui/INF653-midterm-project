@@ -12,10 +12,6 @@
   require('model/make_db.php');
   require('model/type_db.php');
   require('model/class_db.php');
-
-  $year = filter_input(INPUT_GET, 'year', FILTER_VALIDATE_INT);
-  $price = filter_input(INPUT_GET, 'price', FILTER_VALIDATE_INT); 
-  $model = filter_input(INPUT_POST, 'model', FILTER_SANITIZE_STRING);
   
   $makeID = filter_input(INPUT_POST, 'makeID', FILTER_VALIDATE_INT);
   if(!$makeID){
@@ -30,13 +26,15 @@
     $classID = filter_input(INPUT_GET, 'classID', FILTER_VALIDATE_INT);
   }
 
+  $sort = filter_input(INPUT_GET, 'sort', FILTER_SANITIZE_STRING);
+
   $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
   if(!$action){
     $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
     if(!$action){
       $action = 'list_vehicles';
     }
-  }
+  } 
 
   switch ($action){
 
@@ -44,40 +42,24 @@
       $makes = get_makes();
       $types = get_types();
       $classes = get_classes();
-
+        
       if($makeID){
-        $vehicles = get_vehicles_by_make($makeID);
+        $vehicles = get_vehicles_by_make($makeID, $sort);
       }else if($typeID){
-        $vehicles = get_vehicles_by_type($typeID);
+        $vehicles = get_vehicles_by_type($typeID, $sort);
       }else if($classID){
-        $vehicles = get_vehicles_by_class($classID);
+        $vehicles = get_vehicles_by_class($classID, $sort);
       }else{
-        $vehicles = get_vehicles();
-      }
-      include('./view/vehicle_list.php');
-      break;
-
-    case "list_vehicles_by_price":
-      $makes = get_makes();
-      $types = get_types();
-      $classes = get_classes();
-      $vehicles = sort_vehicles_by_price();
-      include('./view/vehicle_list.php');
-      break;
-
-    case "list_vehicles_by_year":
-      $makes = get_makes();
-      $types = get_types();
-      $classes = get_classes();
-      $vehicles = sort_vehicles_by_year();
-      include('./view/vehicle_list.php');
+        $vehicles = get_vehicles($sort);
+      } 
+      include('view/vehicle_list.php');
       break;
 
     default:
       $makes = get_makes();
       $types = get_types();
       $classes = get_classes();
-      $vehicles = get_vehicles();
-      include('./view/vehicle_list.php');
-  
+      $vehicles = get_vehicles($sort);
+      include('view/vehicle_list.php'); 
+       
   }

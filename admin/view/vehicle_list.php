@@ -1,30 +1,33 @@
 <?php include 'header.php'; ?> 
 
 <!-- make type and class dropdown menu -->
+
 <section class="dropdown row">
-  <form action="." method="get" class="dropdown_form col l10 offset-l1 m6 offset-m3 s12">
- 
+
+  <form action="." method="get" class="dropdown_form col l10 offset-l1 m8 offset-m2 s12">
     <input type="hidden" name="action" value="list_vehicles">
-    <!-- onChange="this.form.submit()" --> 
     
     <!-- makes dropdown -->
-    <select name="makeID" required onChange="this.form.submit()" >
+    <label class="label_text black-text">Menu:</label><br>
+    <select name="makeID" required>
 
-      <option value="0" selected>View All Makes</option>
+      <option value="." ><span >View All Makes</span> </option>
+      
+      <!-- #TODO: show selected (remove extra padding) -->
       <?php foreach ($makes as $make): ?>
         <?php if ($makeID == $make['makeID']){ ?>
-          <option value="<?php echo $make['makeID'];?>" selected>
+      <option value="<?php echo $make['makeID'];?>" selected >
         <?php }else{ ?>
-          <option value="<?php echo $make['makeID'];?>">
+      <option value="<?php echo $make['makeID'];?>">
         <?php } ?>
             <?php echo $make['makeName'];?>
-          </option>
+      </option>
       <?php endforeach; ?> 
   
     </select>
 
     <!-- types dropdown -->
-    <select name="typeID" required onChange="this.form.submit()" >
+    <select name="typeID" required>
 
       <option selected value=".">View All Types</option>
       <?php foreach ($types as $type) : ?>
@@ -40,11 +43,11 @@
     </select>
   
     <!-- classes dropdown -->   
-    <select name="classID" required onChange="this.form.submit()" >
+    <select name="classID" required>
 
       <option selected value=".">View All Classes</option>
       <?php foreach ($classes as $class) : ?>
-         <?php if ($classID == $class['classID']){ ?>
+        <?php if ($classID == $class['classID']){ ?>
           <option value="<?php echo $class['classID'];?>" selected>
         <?php }else{ ?>
           <option value="<?php echo $class['classID'];?>">
@@ -55,35 +58,27 @@
 
     </select>
      
-  </form>
-</section>
+    <!-- radio button -->
+    <div class="sort_by col l10 offset-l1 m12 s12 section">
 
-<!-- sort option radio buttons-->
-<section class="sort_by row section">
-  <?php 
-     
-    $year_check = 'unchecked';
-    $price_check = 'unchecked';
+      <label><span class="sort_by_text">Sort By:</span></label> 
+
+      <!-- sort by price radio -->  
+      <label>
+        <input class="with-gap" type="radio" name="sort" value="price" >
+        <span class="sort_by_text">Price</span> 
+      </label>
+
+      <!-- sort by year radio -->
+      <label>
+        <input class="with-gap" type="radio" name="sort" value="year" >
+        <span class="sort_by_text">Year</span> 
+      </label>
+
+      <!-- submit button for all -->
+      <button class="right btn-small waves-effect waves-light indigo darken-1">Submit</button>  
     
-    if ($year){
-      $year_check = 'checked';
-       
-    }else if ($price){
-      $price_check = 'checked';
-       
-    }
-  ?>
-  <form action="." method="get" class="col l8 offset-l2 m8 offset-m2 s12">
-    <label class="label_text">Sort By:</label> 
-    <label>
-      <input class="with-gap" type="radio" name="action" value="list_vehicles_by_price" <?php echo $price_check;?>>
-      <span>Price</span> 
-    </label>
-    <label>
-      <input class="with-gap" type="radio" name="action" name="group3" value="list_vehicles_by_year" <?php echo $year_check;?>>
-      <span>Year</span> 
-    </label>
-    <button class="right submit_btn btn-small waves-effect waves-light indigo darken-1">Submit</button>   
+    </div> 
   </form>  
 </section>
 
@@ -153,7 +148,6 @@
 
   </div>
 </section>
-<div class="divider"></div>
 
 
 <?php include 'footer.php'; ?> 

@@ -20,32 +20,37 @@ main {
 }
 
 .dropdown{
-   
+     
   .dropdown_form{
-    
+
     .select-wrapper ul li span{
       color: black;
     }
+
+    .sort_by {
+      
+      //change default radio color
+      [type="radio"].with-gap:checked+span:before,
+      [type="radio"].with-gap:checked+span:after{
+        background-color: #3949ab ;
+        border:2px solid #3949ab ;
+      } 
+
+      .sort_by_text{
+        font-size: 1rem; 
+        color: black !important;
+      }
+      
+    }
+     
   }  
+  .label_text {
+    font-size: 1rem;
+  }
+
 } 
 
-.sort_by {
-   
-  .label_text{
-    font-size: 1rem;
-    margin-right: 1rem;
-  }
-  //change default radio color
-  [type="radio"].with-gap:checked+span:before,
-  [type="radio"].with-gap:checked+span:after{
-    background-color: #3949ab ;
-    border:2px solid #3949ab ;
-  } 
-  .submit_btn{
-    margin-left: 1rem; 
-  }
-  
-}
+
 .page-link{
   div p{
     margin-bottom: 1rem;
@@ -71,9 +76,7 @@ main {
  h2{
    font-size: 20px !important;
  }
- .sort_by_text{
-   margin-left: 2rem;
- }
+  
 }
 
 @media only screen and (max-width: 600px) {
@@ -83,8 +86,6 @@ main {
  h2{
    font-size: 15px !important;
  }
- .sort_by_text{
-   margin-left: 0.5rem;
- }
+ 
 }
  

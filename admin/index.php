@@ -16,6 +16,7 @@ admin page:
   $year = filter_input(INPUT_GET, 'year', FILTER_VALIDATE_INT);
   $price = filter_input(INPUT_GET, 'price', FILTER_VALIDATE_INT); 
   $model = filter_input(INPUT_GET, 'model', FILTER_SANITIZE_STRING);
+  $sort = filter_input(INPUT_GET, 'sort', FILTER_SANITIZE_STRING);
   
   $makeID = filter_input(INPUT_POST, 'makeID', FILTER_VALIDATE_INT);
   if(!$makeID){
@@ -29,6 +30,7 @@ admin page:
   if(!$classID){
     $classID = filter_input(INPUT_GET, 'classID', FILTER_VALIDATE_INT);
   }
+  
   /*vehicleID parameters*/
   $vehicleID = filter_input(INPUT_POST, 'vehicleID', FILTER_VALIDATE_INT);
   if(!$vehicleID){
@@ -49,149 +51,35 @@ admin page:
     }
   }
 
-  switch ($action){
-
-    case "list_vehicles":
-      $makes = get_makes();
-      $types = get_types();
-      $classes = get_classes();
-
-      if($makeID){
-        $vehicles = get_vehicles_by_make($makeID);
-      }else if($typeID){
-        $vehicles = get_vehicles_by_type($typeID);
-      }else if($classID){
-        $vehicles = get_vehicles_by_class($classID);
-      }else{
-        $vehicles = get_vehicles();
-      }
-      include('./view/vehicle_list.php');
-      break;
-
-    case "list_vehicles_by_price":
-      $makes = get_makes();
-      $types = get_types();
-      $classes = get_classes();
-      $vehicles = sort_vehicles_by_price();
-      include('./view/vehicle_list.php');
-      break;
-
-    case "list_vehicles_by_year":
-      $makes = get_makes();
-      $types = get_types();
-      $classes = get_classes();
-      $vehicles = sort_vehicles_by_year();
-      include('./view/vehicle_list.php');
-      break;
-
-    /* vehichle controller*/
-    case "delete_vehicle":
-      include('controllers/vehicle_controller.php'); 
-      break;
-    case 'show_vehicle_form':
-      $makes = get_makes();
-      $types = get_types();
-      $classes = get_classes();
-      include('./view/add_vehicle.php');  
-      break;
-    case "add_vehicle":
-      if($year && $model && $price && $typeID && $makeID && $classID){
-        add_vehicle($makeID, $typeID, $classID, $year, $model, $price);
-        header('location:.');
-      }else{
-        $errorMessage='incorrect vehicle data';
-        include('../view/error.php');
-        exit();
-      } 
-      break;
-
-    /* makes controller*/
-    case "show_make_form":
-      $makes = get_makes();
-      include('view/makes.php');
-      break;
-    case "add_make":
-      add_make($makeName);
-      header('Location: .?action=show_make_form');
-      break;
-    case "delete_make":
-      if($makeID){
-        try{
-          delete_make($makeID);
-        }catch(PDOException $e){
-          $errorMessage = "You can't delete make when vehicle exits in the make database.";
-          include('view/error.php');
-          exit();
-        }
-        header('Location: .?action=show_make_form');
-      }else{
-        $errorMessage='incorrect vehicle make data.';
-        include('view/error.php');
-        exit();
-      }
-      break;
+  if ($action == "list_vehicles"){
+    $makes = get_makes();
+    $types = get_types();
+    $classes = get_classes();
     
-    /* types controller*/
-    case "show_type_form":
-      $types = get_types();
-      include('view/types.php');
-      break;
-    case "add_type":
-      add_type($typeName);
-      header('Location: .?action=show_type_form');
-      break;
-    case "delete_type":
-      if($typeID){
-        try{
-          delete_type($typeID);
-        }catch(PDOException $e){
-          $errorMessage = "You can't delete type when vehicle exits in the type database.";
-          include('view/error.php');
-          exit();
-        }
-        header('Location: .?action=show_type_form');
-      }else{
-        $errorMessage='incorrect vehicle type data.';
-        include('view/error.php');
-        exit();
-      }
-      break;
+    if($makeID){
+      $vehicles = get_vehicles_by_make($makeID, $sort);
+    }else if($typeID){  
+      $vehicles = get_vehicles_by_type($typeID, $sort);
+    }else if($classID){
+      $vehicles = get_vehicles_by_class($classID, $sort);
+    }else{
+      $vehicles = get_vehicles($sort);
+    } 
+    include('./view/vehicle_list.php');
 
-    /* classes controller*/
-    case "show_class_form":
-      $classes = get_classes();
-      include('view/classes.php');
-      break;
-    case "add_class":
-      add_class($className);
-      header('Location: .?action=show_class_form');
-      break;
-    case "delete_class":
-      if($classID){
-        try{
-          delete_class($classID);
-        }catch(PDOException $e){
-          $errorMessage = "You can't delete class when vehicle exits in the class database.";
-          include('view/error.php');
-          exit();
-        }
-        header('Location: .?action=show_class_form');
-      }else{
-        $errorMessage='incorrect vehicle class data.';
-        include('view/error.php');
-        exit();
-      }
-      break;  
+  }else if($action == "delete_vehicle"||$action == 'show_vehicle_form' || $action == "add_vehicle"){
+    include('controllers/vehicle_controller.php'); 
+  }else if($action == "show_make_form" || $action == "add_make" || $action == "delete_make"){
+    include('controllers/make_controller.php');
+  }else if($action == "show_type_form" || $action == "add_type" || $action == "delete_type"){
+    include('controllers/type_controller.php');
 
-
-
-
-    // default
-    default:
-      $makes = get_makes();
-      $types = get_types();
-      $classes = get_classes();
-      $vehicles = get_vehicles();
-      include('./view/vehicle_list.php');
-  
+  }else if($action == "show_class_form" || $action == "add_class" || $action == "delete_class"){
+    include('controllers/class_controller.php');
+  }else{
+    $makes = get_makes();
+    $types = get_types();
+    $classes = get_classes();
+    $vehicles = get_vehicles();
+    include('./view/vehicle_list.php');
   }

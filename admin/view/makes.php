@@ -38,7 +38,6 @@
   </form>
 </section>
 
-
 <section class="row page-link section">
   <div class="col l6 offset-l3 m8 offset-m3 s12">
     
@@ -49,6 +48,6 @@
 
   </div>
 </section>
-<div class="divider"></div>
+
 
 <?php include 'footer.php'; ?> 

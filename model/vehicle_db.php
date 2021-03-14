@@ -1,51 +1,96 @@
 <?php 
 
-  function get_vehicles(){
+  function get_vehicles($sort){
     global $db;
-    $query = 'SELECT * FROM vehicles';
+    if ($sort == 'year'){
+      $query = 'SELECT * FROM vehicles ORDER BY year DESC';
+    }else {
+      $query = 'SELECT * FROM vehicles ORDER BY price DESC';
+    } 
     $statement = $db->prepare($query);
     $statement->execute();
     $vehicles = $statement->fetchAll();
     $statement->closeCursor();
     return $vehicles;
   }
-
-  function get_vehicles_by_make($makeID){
+  
+  function get_vehicles_by_make($makeID, $sort){
     global $db;
-    $query = 'SELECT * FROM vehicles V
-              LEFT JOIN makes M
-              ON V.makeID = M.makeID
-              WHERE V.makeID = :makeID';
+    if ($sort == 'year'){
+      $query = 'SELECT * FROM vehicles V
+                LEFT JOIN makes M
+                ON V.makeID = M.makeID
+                WHERE V.makeID = :makeID
+                ORDER BY year DESC';
+    }else if($sort == 'price'){
+      $query = 'SELECT * FROM vehicles V
+                LEFT JOIN makes M
+                ON V.makeID = M.makeID
+                WHERE V.makeID = :makeID
+                ORDER BY price DESC';
+    }else{
+      $query = 'SELECT * FROM vehicles V
+                LEFT JOIN makes M
+                ON V.makeID = M.makeID
+                WHERE V.makeID = :makeID';
+    }
     $statement = $db->prepare($query);
     $statement->bindValue(':makeID', $makeID);
     $statement->execute();
     $vehicles = $statement->fetchAll();
     $statement->closeCursor();
     return $vehicles;
-
   }
 
-  function get_vehicles_by_type($typeID){
+  function get_vehicles_by_type($typeID, $sort){
     global $db;
-    $query = 'SELECT * FROM vehicles V
-              LEFT JOIN types T
-              ON V.typeID = T.typeID
-              WHERE V.typeID = :typeID';
+    if($sort == 'year'){
+      $query = 'SELECT * FROM vehicles V
+                LEFT JOIN types T
+                ON V.typeID = T.typeID
+                WHERE V.typeID = :typeID
+                ORDER BY year DESC';
+
+    }else if($sort == 'price'){
+      $query = 'SELECT * FROM vehicles V
+                LEFT JOIN types T
+                ON V.typeID = T.typeID
+                WHERE V.typeID = :typeID
+                ORDER BY price DESC';
+    }else{
+      $query = 'SELECT * FROM vehicles V
+                LEFT JOIN types T
+                ON V.typeID = T.typeID
+                WHERE V.typeID = :typeID';
+    }
     $statement = $db->prepare($query);
     $statement->bindValue(':typeID', $typeID);
     $statement->execute();
     $vehicles = $statement->fetchAll();
     $statement->closeCursor();
     return $vehicles;
-
   }
 
-   function get_vehicles_by_class($classID){
+  function get_vehicles_by_class($classID, $sort){
     global $db;
-    $query = 'SELECT * FROM vehicles V
-              LEFT JOIN classes C
-              ON V.classID = C.classID
-              WHERE V.classID = :classID';
+    if($sort == 'year'){
+      $query = 'SELECT * FROM vehicles V
+                LEFT JOIN classes C
+                ON V.classID = C.classID
+                WHERE V.classID = :classID
+                ORDER BY year DESC';
+    }else if($sort == 'price'){
+      $query = 'SELECT * FROM vehicles V
+                LEFT JOIN classes C
+                ON V.classID = C.classID
+                WHERE V.classID = :classID
+                ORDER BY price DESC';
+    }else{
+      $query = 'SELECT * FROM vehicles V
+                LEFT JOIN classes C
+                ON V.classID = C.classID
+                WHERE V.classID = :classID';
+    }
     $statement = $db->prepare($query);
     $statement->bindValue(':classID', $classID);
     $statement->execute();
@@ -53,26 +98,6 @@
     $statement->closeCursor();
     return $vehicles;
 
-  }
-
-  function sort_vehicles_by_price(){
-    global $db;
-    $query = 'SELECT * FROM vehicles ORDER BY price';
-    $statement = $db->prepare($query);
-    $statement->execute();
-    $vehicles = $statement->fetchAll();
-    $statement->closeCursor();
-    return $vehicles;
-  }
-
-  function sort_vehicles_by_year(){
-    global $db;
-    $query = 'SELECT * FROM vehicles ORDER BY year';
-    $statement = $db->prepare($query);
-    $statement->execute();
-    $vehicles = $statement->fetchAll();
-    $statement->closeCursor();
-    return $vehicles;
   }
 
   function delete_vehicle($vehicleID){

@@ -46,9 +46,7 @@
     <p><a class="black-text" href="?action=show_make_form">View/Edit Vehicle Makes</a></p>  
     <p><a class="black-text" href="?action=show_type_form">View/Edit Vehicle Types</a></p>
     
-
   </div>
 </section>
-<div class="divider"></div>
 
 <?php include 'footer.php'; ?> 

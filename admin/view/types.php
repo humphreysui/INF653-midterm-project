@@ -48,6 +48,5 @@
 
   </div>
 </section>
-<div class="divider"></div>
 
 <?php include 'footer.php'; ?> 
