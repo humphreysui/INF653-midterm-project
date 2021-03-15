@@ -119,18 +119,11 @@
       </tr> 
       <?php endforeach; ?> 
     
-    <!-- TODO -->
+    <!-- No results -->
     <?php }else{ ?>
       <br>
-      <?php if($makeID){ ?>
-        <p>No make.</p>
-      <?php }else if(!$typeID){ ?>
-        <p>No Type.</p>
-      <?php }else if($classID){ ?>
-        <p>No Class.</p>
-      <?php }else{ ?>
       <p>Nothing Found. </p>
-      <?php } ?>
+      <br>
     <?php } ?>
 
   </table>
