@@ -43,7 +43,7 @@
       $types = get_types();
       $classes = get_classes();
         
-      if($makeID){
+      /* if($makeID){
         $vehicles = get_vehicles_by_make($makeID, $sort);
       }else if($typeID){
         $vehicles = get_vehicles_by_type($typeID, $sort);
@@ -51,7 +51,10 @@
         $vehicles = get_vehicles_by_class($classID, $sort);
       }else{
         $vehicles = get_vehicles($sort);
-      } 
+      }  */
+
+      $vehicles = get_vehicles_filtered($makeID, $typeID, $classID, $sort);
+
       include('view/vehicle_list.php');
       break;
 

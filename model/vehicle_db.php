@@ -1,10 +1,38 @@
 <?php 
 
+  // extra credit:
+  function get_vehicles_filtered($makeID, $typeID, $classID, $sort){
+    global $db;
+    /* $subQuery = array(); */
+    unset($subQuery);
+    $query = 'SELECT * FROM vehicles ';
+    if($makeID){
+      $subQuery[] = "makeID = '$makeID' ";
+    } 
+    if($typeID){
+      $subQuery[] = "typeID = '$typeID' ";
+    }
+    if($classID){
+      $subQuery[] = "classID = '$classID' ";
+    }
+    if(!empty($subQuery)){
+      $query.=' WHERE '.implode(" AND ", $subQuery);   
+    }
+    if ($sort){
+      $query .= " ORDER BY {$sort} DESC";
+    }
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $vehicles = $statement->fetchAll();
+    $statement->closeCursor();
+    return $vehicles;
+  }
+
   function get_vehicles($sort){
     global $db;
     if ($sort == 'year'){
       $query = 'SELECT * FROM vehicles ORDER BY year DESC';
-    }else {
+    }else{
       $query = 'SELECT * FROM vehicles ORDER BY price DESC';
     } 
     $statement = $db->prepare($query);
@@ -14,7 +42,8 @@
     return $vehicles;
   }
   
-  function get_vehicles_by_make($makeID, $sort){
+  // before extra credit
+  /* function get_vehicles_by_make($makeID, $sort){
     global $db;
     if ($sort == 'year'){
       $query = 'SELECT * FROM vehicles V
@@ -98,7 +127,7 @@
     $statement->closeCursor();
     return $vehicles;
 
-  }
+  } */
 
   function delete_vehicle($vehicleID){
     global $db;
